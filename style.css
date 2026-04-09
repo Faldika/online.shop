@@ -1,0 +1,248 @@
+/* --- RESET --- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+/* --- NAVBAR --- */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 60px;
+  background-color: #ffffff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Logo */
+#brand-logo {
+  height: 200px;
+  object-fit: contain;
+}
+
+/* Menu */
+.nav-links ul {
+  display: flex;
+  gap: 133px;
+}
+
+.nav-links ul li {
+  position: relative;
+}
+
+.nav-links a {
+  font-weight: 800;
+  font-size: 24px;
+  letter-spacing: 0.5px;
+  transition: 0.3s;
+}
+
+.nav-links a:hover {
+  color: #555;
+}
+
+/* --- DROPDOWN (ON CLICK) --- */
+.dropdown {
+  position: relative;
+}
+
+
+
+/* Item dropdown */
+/* DROPDOWN FULL KE BAWAH */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  
+
+  padding: 60px 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: 0.3s;
+  z-index: 99;
+}
+
+/* ITEM */
+.dropdown-menu li a {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+/* ACTIVE */
+.dropdown.active .dropdown-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* --- ICONS --- */
+.nav-icons {
+  display: flex;
+  gap: 25px;
+}
+
+.nav-icons img {
+  height: 40px;
+  cursor: pointer;
+}
+
+/* --- HERO --- */
+.hero {
+  display: flex;
+  justify-content: center;
+  padding: 40px 0;
+}
+
+.hero-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 2000px;
+}
+
+.hero .welcome {
+  align-self: flex-start;
+}
+
+.hero .welcome img {
+  width: 600px;
+}
+
+.hero .Star {
+  align-self: center;
+}
+
+.hero .Star img {
+  width: 100px;
+}
+
+.hero .DISILLUSIONED {
+  align-self: flex-end;
+}
+
+.hero .DISILLUSIONED img {
+  width: 600px;
+}
+
+/* --- PRODUCT GRID --- */
+main {
+  padding: 60px;
+  max-width: 1440px;
+  margin: auto;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+.product-card {
+  display: flex;
+  justify-content: center;
+}
+
+.product-card img {
+  width: 100%;
+  object-fit: cover;
+}
+
+/* --- FOOTER --- */
+footer {
+  background: #000;
+  color: #fff;
+  padding: 60px;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.footer-section h3 {
+  font-size: 48px;
+  font-style: italic;
+  font-weight: 900;
+}
+
+.footer-section a {
+  font-size: 24px;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.footer-section a:hover {
+  color: #ccc;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .nav-links ul {
+    gap: 20px;
+  }
+
+  main {
+    padding: 20px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero {
+    padding: 20px;
+  }
+
+  .hero-container {
+    align-items: center;
+  }
+
+  .hero .welcome img {
+    width: 300px;
+  }
+
+  .hero .Star img {
+    width: 50px;
+  }
+
+  .hero .DISILLUSIONED img {
+    width: 350px;
+  }
+
+  footer {
+    padding: 40px 20px;
+  }
+}

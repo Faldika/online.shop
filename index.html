@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disilgang - Official Store</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+    <div class="logo">
+      <img src="aset/logo icon/logo icon.png" id="brand-logo">
+    </div>
+
+    <nav class="nav-links">
+      <ul>
+        <li><a href="#">HOME</a></li>
+        <li><a href="Product.html">PRODUCT</a></li>
+
+        <li class="dropdown">
+          <a href="#">CATEGORY ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="#">T-shirt</a></li>
+            <li><a href="#">Hoodie</a></li>
+            <li><a href="#">Pants</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="nav-icons">
+      <img src="aset/logo icon/cart icon.png">
+      <img src="aset/logo icon/search.png">
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-container">
+        
+        <div class="welcome">
+          <img src="aset/image landing page/welcome to.png">
+        </div>
+
+        <div class="Star">
+          <img src="aset/image landing page/Star.png">
+        </div>
+
+        <div class="DISILLUSIONED">
+          <img src="aset/image landing page/DISILLUSIONED.png">
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PRODUCT -->
+    <section class="product-grid">
+      <div class="product-card">
+        <img src="aset/image landing page/TS DSL.png">
+      </div>
+
+      <div class="product-card">
+        <img src="aset/image landing page/TS Hellposer.png">
+      </div>
+
+      <div class="product-card">
+        <img src="aset/image landing page/HD DG.png">
+      </div>
+
+      <div class="product-card">
+        <img src="aset/image landing page/Pants Camo.png">
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-container">
+
+      <div class="footer-section">
+        <h3>Help Center</h3>
+        <ul>
+          <li><a href="#">Contact us</a></li>
+          <li><a href="#">Shipping & Return</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section">
+        <h3>Follow Account</h3>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- 🔥 SCRIPT DROPDOWN (ON CLICK) -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const dropdown = document.querySelector(".dropdown");
+      const trigger = dropdown.querySelector("a");
+
+      // klik category
+      trigger.addEventListener("click", function(e) {
+        e.preventDefault();
+        dropdown.classList.toggle("active");
+      });
+
+      // klik luar → tutup
+      document.addEventListener("click", function(e) {
+        if (!dropdown.contains(e.target)) {
+          dropdown.classList.remove("active");
+        }
+      });
+
+    });
+  </script>
+
+</body>
+</html>
