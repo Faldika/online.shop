@@ -48,21 +48,9 @@ header {
     
 }
 
-
-
-
-* --- ICONS --- */
-.nav-icons {
-  display: flex;
-  gap: 25px;
+.nav-links a:hover {
+    color: #555555;
 }
-
-.nav-icons img {
-  height: 40px;
-  cursor: pointer;
-}
-
-
 
 .dropdown {
   position: relative;
@@ -103,6 +91,14 @@ header {
 }
 
 
+.nav-icons img{
+    gap: 25px;
+    height: 51px;
+}
+
+.nav-icons a:hover {
+    color: #555555;
+}
 
 
 body {
@@ -133,9 +129,6 @@ body {
   text-align: center;
 }
 
-    
-    
-
 /* Image */
 .card img {
   width: 100%;
@@ -155,56 +148,6 @@ body {
 .card p {
   font-size: 20px;
   color: #555;
-}
-
-
-/* CARD */
-.card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-/* CONTAINER GAMBAR */
-.image-box {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-}
-
-/* SEMUA GAMBAR */
-.image-box img {
-  width: 100%;
-  display: block;
-  transition: 0.4s ease;
-}
-
-/* GAMBAR DEFAULT (DEPAN) */
-.img-default {
-  position: relative;
-  z-index: 1;
-}
-
-/* GAMBAR HOVER (BELAKANG) */
-.img-hover {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  z-index: 2;
-}
-
-/* EFFECT HOVER */
-.card:hover .img-hover {
-  opacity: 1;
-}
-
-.card:hover .img-default {
-  opacity: 0;
 }
 
 
