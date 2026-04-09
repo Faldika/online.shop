@@ -151,28 +151,6 @@ body {
 
 
 
-.product-section {
-  position: relative;
-}
-
-.bg-logo {
-  position: absolute;
-  top: 1010px;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  width: 1200px;
-  opacity: 0.30;
-  z-index: -10;
-}
-
-.product-grid {
-  position: relative;
-  z-index: 1;
-}
-
-
-
 
 @media (max-width: 768px) {
   .product-grid {
