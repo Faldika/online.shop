@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Disilgang - Official Store</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style detail product.css">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+    <div class="logo">
+      <img src="aset/logo icon/logo icon.png" id="brand-logo">
+    </div>
+
+    <nav class="nav-links">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="Product.html">PRODUCT</a></li>
+
+        <li class="dropdown">
+          <a href="#">CATEGORY ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="T-shirt.html">T-shirt</a></li>
+            <li><a href="Hoddie.html">Hoodie</a></li>
+            <li><a href="Pants.html">Pants</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="nav-icons">
+      <img src="aset/logo icon/cart icon.png">
+      <img src="aset/logo icon/search.png">
+    </div>
+  </header>
+
+<div class="product-detail">
+
+  <!-- LEFT -->
+  <div class="product-left">
+
+    <button class="arrow left" onclick="prevImg()">&#10094;</button>
+
+    <div class="main-image">
+      <img id="mainImg" src="aset/image detail product/Saints.png">
+    </div>
+
+    <button class="arrow right" onclick="nextImg()">&#10095;</button>
+
+    <!-- THUMB -->
+    <div class="thumbnail">
+      <img src="aset/image detail product/Saints.png" onclick="changeImg(this)">
+      <img src="aset/image detail product/Front saints.png" onclick="changeImg(this)">
+      <img src="aset/image detail product/Back saints.png" onclick="changeImg(this)">
+    </div>
+
+  </div>
+
+  <!-- RIGHT -->
+  <div class="product-right">
+
+    <h3>Size</h3>
+
+    <div class="size">
+      <button onclick="selectSize(this)">S</button>
+      <button onclick="selectSize(this)">M</button>
+      <button onclick="selectSize(this)">L</button>
+      <button onclick="selectSize(this)">XL</button>
+    </div>
+
+
+    <!-- CART -->
+    <div class="cart">
+
+      <div class="qty">
+        <button onclick="minus()">-</button>
+        <span id="qty">1</span>
+        <button onclick="plus()">+</button>
+      </div>
+
+      <button class="add-cart" onclick="addCart()">Add to cart</button>
+
+    </div>
+
+    <button class="buy" onclick="buyNow()">Buy it now</button>
+
+    <a href="#" class="size-chart" onclick="sizeChart()">Size Chart</a>
+
+    <div class="desc">
+      <p><b>DESCRIPTION PRODUCT</b></p>
+      <p>CUTTING : Oversize</p>
+      <p>MATERIAL : Cotton combed 20S</p>
+      <p>Color : White</p>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+
+// GANTI GAMBAR
+function changeImg(el) {
+  document.getElementById("mainImg").src = el.src;
+}
+
+// SIZE ACTIVE
+function selectSize(btn) {
+  document.querySelectorAll(".size button").forEach(b => {
+    b.classList.remove("active");
+  });
+  btn.classList.add("active");
+}
+
+// QTY
+let qty = 1;
+
+function plus() {
+  qty++;
+  document.getElementById("qty").innerText = qty;
+}
+
+function minus() {
+  if (qty > 1) {
+    qty--;
+    document.getElementById("qty").innerText = qty;
+  }
+}
+
+// ADD CART
+function addCart() {
+  alert("Produk ditambahkan ke cart!");
+}
+
+// BUY NOW
+function buyNow() {
+  alert("Lanjut ke pembayaran!");
+}
+
+// SIZE CHART
+function sizeChart() {
+  alert("Menampilkan size chart...");
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  const dropdown = document.querySelector(".dropdown");
+  const trigger = dropdown.querySelector("a");
+
+  trigger.addEventListener("click", function(e) {
+    e.preventDefault();
+    dropdown.classList.toggle("active");
+  });
+
+  document.addEventListener("click", function(e) {
+    if (!dropdown.contains(e.target)) {
+      dropdown.classList.remove("active");
+    }
+  });
+});
+
+
+
+// daftar gambar
+const images = [
+  "aset/image detail product/Saints.png",
+  "aset/image detail product/Front saints.png",
+  "aset/image detail product/Back saints.png"
+];
+
+let currentIndex = 0;
+
+// tampilkan gambar
+function showImage() {
+  document.getElementById("mainImg").src = images[currentIndex];
+}
+
+// NEXT →
+function nextImg() {
+  if (currentIndex < images.length -1) {
+    currentIndex++;
+    showImage();
+  }
+}
+
+// ← PREV
+function prevImg() {
+  if (currentIndex >  0)
+   {
+    currentIndex--;
+    showImage();
+  }
+}
+
+
+</script>
+
+</body>
+</html>
