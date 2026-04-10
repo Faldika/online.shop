@@ -4,16 +4,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Disilgang - Official Store</title>
+    <title>Search - Disilgang Official Store</title>
     <link rel="stylesheet" href="style product.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        .search-area {
+            text-align: center;
+            padding: 80px 20px 40px;
+            background-color: #fafafa;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 40px;
+        }
+
+        .search-area h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .search-input-box {
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-input-box input {
+            width: 100%;
+            padding: 20px 30px;
+            font-size: 18px;
+            font-family: 'Poppins', sans-serif;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .search-input-box input:focus {
+            border-color: #000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-icon-inside {
+            position: absolute;
+            right: 25px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            opacity: 0.5;
+        }
+        
+        .no-result {
+            width: 100%;
+            text-align: center;
+            padding: 60px 0;
+            font-size: 18px;
+            color: #777;
+            grid-column: 1 / -1;
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
 
     <header>
         <div class="logo">
-            <img src="aset/logo icon/logo icon.png" alt="" id="brand-logo">
+            <img src="aset/logo icon/logo icon.png" alt="" id="brand-logo" onclick="window.location.href='index.html'" style="cursor:pointer;">
         </div>
 
         <nav class="nav-links">
@@ -33,18 +89,25 @@
         </nav>
 
         <div class="nav-icons">
-            <img src="aset/logo icon/cart icon.png" id="cart-icon-toggle">
-            <img src="aset/logo icon/search.png">
+            <img src="aset/logo icon/cart icon.png" id="cart-icon-toggle" onclick="window.location.href='cart.html'" style="cursor:pointer;">
+            <img src="aset/logo icon/search.png" style="cursor:pointer;">
         </div>
     </header>
-    <div class="product-section">
-        <img src="aset/image product/logo.png" class="bg-logo">
 
+    <div class="search-area">
+        <h1>What are you looking for?</h1>
+        <div class="search-input-box">
+            <input type="text" id="mainSearchInput" placeholder="Search t-shirts, hoodies, pants..." autocomplete="off">
+            <img src="aset/logo icon/search.png" class="search-icon-inside">
+        </div>
     </div>
-    <section class="product-section">
-        <h1>All Product</h1>
 
-        <div class="product-grid">
+    <section class="product-section" style="padding-top: 0;">
+        <h2 id="resultTitle" style="text-align: center; margin-bottom: 30px; font-weight: 600; display: none;"></h2>
+
+        <div class="product-grid" id="searchProductGrid">
+            
+            <p id="noResultMsg" class="no-result">No products found for this search.</p>
 
             <!-- Card 1: TS - Stars Saints -->
             <a href="Detail product.html" class="card-link">
@@ -193,37 +256,98 @@
         </div>
     </section>
 
-    <!-- 🔥 SCRIPT DROPDOWN (ON CLICK) -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-
+            // NAVBAR DROPDOWN
             const dropdown = document.querySelector(".dropdown");
             const trigger = dropdown.querySelector("a");
 
-            // klik category
             trigger.addEventListener("click", function (e) {
                 e.preventDefault();
                 dropdown.classList.toggle("active");
             });
 
-            // klik luar → tutup
             document.addEventListener("click", function (e) {
                 if (!dropdown.contains(e.target)) {
                     dropdown.classList.remove("active");
                 }
             });
 
-            // Cart icon → ke cart.html
-            document.getElementById("cart-icon-toggle").addEventListener("click", function() {
-                window.location.href = "cart.html";
-            });
+            // LIVE SEARCH LOGIC
+            const searchInput = document.getElementById("mainSearchInput");
+            const resultTitle = document.getElementById("resultTitle");
+            const noResultMsg = document.getElementById("noResultMsg");
+            const cards = document.querySelectorAll(".card-link");
 
+            // Define smart aliases
+            const aliases = {
+                "ts": ["ts -", "t-shirt", "tshirt", "kaos", "baju", "shirt"],
+                "pants": ["pants", "jorts", "jort", "celana"],
+                "celana": ["pants", "jorts", "jort", "celana"],
+                "shirt": ["ts -", "t-shirt", "tshirt", "kaos", "baju", "shirt"],
+                "t-shirt": ["ts -", "t-shirt", "tshirt", "kaos", "baju", "shirt"],
+                "tshirt": ["ts -", "t-shirt", "tshirt", "kaos", "baju", "shirt"],
+                "kaos": ["ts -", "t-shirt", "tshirt", "kaos", "baju", "shirt"],
+                "baju": ["ts -", "t-shirt", "tshirt", "kaos", "baju", "shirt"],
+                "hoodie": ["hd -", "hoddie", "hoodie", "sweater", "jaket"],
+                "hoddie": ["hd -", "hoddie", "hoodie", "sweater", "jaket"],
+                "jacket": ["hd -", "hoddie", "hoodie", "sweater", "jaket"],
+                "jaket": ["hd -", "hoddie", "hoodie", "sweater", "jaket"]
+            };
+
+            // Focus timeout
+            setTimeout(() => { searchInput.focus(); }, 100);
+
+            // Hide all initially or show all? We can show all or hide all based on preference. Let's just keep them all shown initially until typed!
+            // Well, on a search page, starting out with all products is fine and live filtering happens as you type.
+
+            searchInput.addEventListener("input", function() {
+                const q = this.value.toLowerCase().trim();
+                
+                if (q === "") {
+                    resultTitle.style.display = "none";
+                    noResultMsg.style.display = "none";
+                    cards.forEach(card => card.style.display = "block");
+                    return;
+                }
+
+                resultTitle.style.display = "block";
+                resultTitle.textContent = 'Search Results for "' + this.value + '"';
+
+                const searchTerms = aliases[q] || [q];
+                let foundCount = 0;
+
+                cards.forEach(card => {
+                    const title = card.querySelector("h3") ? card.querySelector("h3").textContent.toLowerCase() : "";
+                    const isMatch = searchTerms.some(term => {
+                        if (term === "ts -" || term === "hd -") return title.startsWith(term);
+                        return title.includes(term);
+                    });
+                    
+                    if (isMatch) {
+                        card.style.display = "block";
+                        foundCount++;
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+
+                if (foundCount === 0) {
+                    noResultMsg.style.display = "block";
+                } else {
+                    noResultMsg.style.display = "none";
+                }
+            });
+            
+            // Check if we came here with ?search=...
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has("search")) {
+                searchInput.value = urlParams.get("search");
+                searchInput.dispatchEvent(new Event("input")); // trigger filter
+            }
         });
     </script>
 
-
-
-<script src="global-search.js"></script>
+    <!-- Exclude global-search.js because we handle it locally so it doesnt loop -->
 </body>
-
 </html>

@@ -32,34 +32,44 @@ header {
 }
 
 #brand-logo {
-    height: 200px;
+    height: 80px;
     object-fit: contain;
 }
 
 .nav-links ul {
     display: flex;
-    gap: 133px;
+    gap: 80px;
+    align-items: center;
 }
 
 .nav-links a {
-    font-weight: 800;
-    font-size: 24px;
-    letter-spacing: 0.5px;
-    
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 1px;
+    transition: opacity 0.3s ease;
+}
+
+.nav-links a:hover {
+    opacity: 0.6;
 }
 
 
 
 
-* --- ICONS --- */
 .nav-icons {
   display: flex;
   gap: 25px;
+  align-items: center;
 }
 
 .nav-icons img {
-  height: 40px;
+  height: 28px;
   cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.nav-icons img:hover {
+  opacity: 0.6;
 }
 
 
@@ -73,26 +83,29 @@ header {
   position: absolute;
   top: 100%;
   left: 50%;
-  transform: translateX(-50%) translateY(-20px);
-  
-
-  padding: 60px 0;
-
+  transform: translateX(-50%) translateY(5px);
+  padding: 8px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px;
-
+  gap: 4px;
   opacity: 0;
   visibility: hidden;
-  transition: 0.3s;
+  transition: all 0.3s ease;
   z-index: 99;
+  min-width: 120px;
 }
 
 /* ITEM */
 .dropdown-menu li a {
-  font-size: 28px;
-  font-weight: 700;
+  font-weight: 500;
+  font-size: 14px;
+  padding: 4px 0;
+  transition: opacity 0.2s ease;
+}
+
+.dropdown-menu li a:hover {
+  opacity: 0.6;
 }
 
 /* ACTIVE */

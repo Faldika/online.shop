@@ -24,6 +24,7 @@
       <ul>
         <li><a href="index.html">HOME</a></li>
         <li><a href="Product.html">PRODUCT</a></li>
+        
 
         <li class="dropdown">
           <a href="#">CATEGORY ▾</a>
@@ -37,7 +38,8 @@
     </nav>
 
     <div class="nav-icons">
-      <img src="aset/logo icon/cart icon.png">
+      <img src="aset/logo icon/cart icon.png" id="cart-icon-toggle">
+      
       <img src="aset/logo icon/search.png">
     </div>
   </header>
@@ -69,7 +71,7 @@
 
     <h3>Size</h3>
 
-    <div class="size">  
+    <div class="size">
       <button onclick="selectSize(this)">S</button>
       <button onclick="selectSize(this)">M</button>
       <button onclick="selectSize(this)">L</button>
@@ -87,6 +89,13 @@
       </div>
 
       <button class="add-cart" onclick="addCart()">Add to cart</button>
+
+      <!-- Info produk tersembunyi -->
+      <input type="hidden" id="productName" value="TS - Saints White">
+      <input type="hidden" id="productPrice" value="150000">
+      <input type="hidden" id="productImage" value="aset/image detail product/Saints.png">
+      <input type="hidden" id="frontImage" value="aset/image detail product/Front saints.png">
+      <input type="hidden" id="backImage" value="aset/image detail product/Back saints.png">
 
     </div>
 
@@ -138,17 +147,55 @@ function minus() {
 
 // ADD CART
 function addCart() {
-  alert("Produk ditambahkan ke cart!");
+  const selectedSizeBtn = document.querySelector(".size button.active");
+  if (!selectedSizeBtn) {
+    alert("Pilih ukuran terlebih dahulu!");
+    return;
+  }
+
+  const name  = document.getElementById("productName").value;
+  const price = parseInt(document.getElementById("productPrice").value);
+  const image = document.getElementById("productImage").value;
+  const size  = selectedSizeBtn.innerText;
+
+  // Ambil cart lama dari localStorage
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  // Cek apakah produk dengan nama & ukuran sama sudah ada
+  const existingIndex = cart.findIndex(item => item.name === name && item.size === size);
+  if (existingIndex !== -1) {
+    cart[existingIndex].qty += qty;
+  } else {
+    cart.push({ name, price, image, size, qty });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  window.location.href = "cart.html";
 }
 
 // BUY NOW
 function buyNow() {
-  alert("Lanjut ke pembayaran!");
+  const selectedSizeBtn = document.querySelector(".size button.active");
+  if (!selectedSizeBtn) {
+    alert("Pilih ukuran terlebih dahulu!");
+    return;
+  }
+
+  const name  = document.getElementById("productName").value;
+  const price = parseInt(document.getElementById("productPrice").value);
+  const image = document.getElementById("productImage").value;
+  const size  = selectedSizeBtn.innerText;
+
+  // Simpan ke localStorage sebagai item tunggal (Buy it now)
+  const buyItem = [{ name, price, image, size, qty }];
+  localStorage.setItem("cart", JSON.stringify(buyItem));
+
+  window.location.href = "payment.html";
 }
 
 // SIZE CHART
 function sizeChart() {
-  alert("Menampilkan size chart...");
+  window.location.href = "size chart.html";
 }
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -203,5 +250,6 @@ function prevImg() {
 
 </script>
 
+<script src="global-search.js"></script>
 </body>
 </html>

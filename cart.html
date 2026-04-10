@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart - Disilgang Official Store</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style cart.css">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+    <div class="logo">
+      <img src="aset/logo icon/logo icon.png" id="brand-logo">
+    </div>
+
+    <nav class="nav-links">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="Product.html">PRODUCT</a></li>
+
+        <li class="dropdown">
+          <a href="#">CATEGORY</a>
+          <ul class="dropdown-menu">
+            <li><a href="T-shirt.html">T-shirt</a></li>
+            <li><a href="Hoddie.html">Hoodie</a></li>
+            <li><a href="Pants.html">Pants</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="nav-icons">
+      <img src="aset/logo icon/cart icon.png" id="cart-icon-toggle">
+      <img src="aset/logo icon/search.png">
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <div class="page-wrapper">
+
+    <!-- PRODUCT IMAGE (BACKGROUND LEFT) -->
+    <div class="product-backdrop">
+      
+    </div>
+
+    <!-- CART SIDEBAR -->
+    <aside class="cart-sidebar" id="cartSidebar">
+
+      <!-- HEADER -->
+      <div class="cart-header">
+        <h2>Cart</h2>
+        <button class="cart-close" id="cartClose">&times;</button>
+      </div>
+
+      <!-- BODY -->
+      <div class="cart-body" id="cartBody">
+        <!-- Items akan dirender oleh JavaScript -->
+      </div>
+
+      <!-- FOOTER -->
+      <div class="cart-footer">
+        <div class="cart-total">
+          <span>Estimated total</span>
+          <span class="cart-total-price" id="totalPrice">IDR 0</span>
+        </div>
+        <button class="checkout-btn" onclick="window.location.href='payment.html'">Check out</button>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    // ============================================================
+    // HELPERS
+    // ============================================================
+    function formatRupiah(num) {
+      return "IDR " + num.toLocaleString("id-ID") + ",00";
+    }
+
+    function getCart() {
+      return JSON.parse(localStorage.getItem("cart")) || [];
+    }
+
+    function saveCart(cart) {
+      localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
+    // ============================================================
+    // RENDER CART
+    // ============================================================
+    function renderCart() {
+      const cart = getCart();
+      const body = document.getElementById("cartBody");
+      body.innerHTML = "";
+
+      if (cart.length === 0) {
+        body.innerHTML = '<div class="cart-empty"><p>Your cart is empty</p></div>';
+        document.getElementById("totalPrice").innerText = "IDR 0";
+        return;
+      }
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        total += item.price * item.qty;
+
+        const el = document.createElement("div");
+        el.className = "cart-item";
+        el.dataset.index = index;
+        el.innerHTML = `
+          <div class="cart-item-image">
+            <img src="${item.image}" alt="${item.name}">
+          </div>
+          <div class="cart-item-info">
+            <div class="cart-item-row-top">
+              <div class="cart-item-details">
+                <p class="cart-item-name">${item.name}</p>
+                <p class="cart-item-size">${item.size}</p>
+                <p class="cart-item-unit-price">${formatRupiah(item.price)}</p>
+              </div>
+              <p class="cart-item-price" id="itemTotal-${index}">${formatRupiah(item.price * item.qty)}</p>
+            </div>
+            <div class="cart-item-row-bottom">
+              <div class="cart-item-qty">
+                <button class="qty-btn" onclick="changeQty(${index}, -1)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+                <span class="qty-value" id="qtyValue-${index}">${item.qty}</span>
+                <button class="qty-btn" onclick="changeQty(${index}, 1)">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+              </div>
+              <button class="delete-btn" onclick="deleteItem(${index})">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+        body.appendChild(el);
+      });
+
+      document.getElementById("totalPrice").innerText = formatRupiah(total);
+    }
+
+    // ============================================================
+    // UBAH QTY
+    // ============================================================
+    function changeQty(index, delta) {
+      let cart = getCart();
+      cart[index].qty += delta;
+
+      if (cart[index].qty < 1) cart[index].qty = 1;
+
+      saveCart(cart);
+
+      // Update tampilan tanpa re-render penuh
+      document.getElementById("qtyValue-" + index).innerText = cart[index].qty;
+      document.getElementById("itemTotal-" + index).innerText = formatRupiah(cart[index].price * cart[index].qty);
+
+      // Update grand total
+      const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+      document.getElementById("totalPrice").innerText = formatRupiah(total);
+    }
+
+    // ============================================================
+    // HAPUS ITEM
+    // ============================================================
+    function deleteItem(index) {
+      let cart = getCart();
+      const el = document.querySelector(`.cart-item[data-index="${index}"]`);
+
+      el.style.opacity = "0";
+      el.style.transform = "translateX(30px)";
+      el.style.transition = "all 0.3s ease";
+
+      setTimeout(() => {
+        cart.splice(index, 1);
+        saveCart(cart);
+        renderCart(); // Re-render ulang setelah hapus
+      }, 300);
+    }
+
+    // ============================================================
+    // DROPDOWN NAVBAR
+    // ============================================================
+    document.addEventListener("DOMContentLoaded", function () {
+      renderCart(); // Render saat halaman dimuat
+
+      const dropdown = document.querySelector(".dropdown");
+      const trigger = dropdown.querySelector("a");
+
+      trigger.addEventListener("click", function(e) {
+        e.preventDefault();
+        dropdown.classList.toggle("active");
+      });
+
+      document.addEventListener("click", function(e) {
+        if (!dropdown.contains(e.target)) {
+          dropdown.classList.remove("active");
+        }
+      });
+
+      // Close / Open cart sidebar
+      document.getElementById("cartClose").addEventListener("click", function() {
+        window.location.href = "Product.html";
+      });
+
+      document.getElementById("cart-icon-toggle").addEventListener("click", function() {
+        document.getElementById("cartSidebar").classList.remove("closed");
+      });
+    });
+  </script>
+
+<script src="global-search.js"></script>
+</body>
+</html>

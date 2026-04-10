@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment - Disilgang Official Store</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style payment.css">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+    <div class="logo">
+      <img src="aset/logo icon/logo icon.png" id="brand-logo">
+    </div>
+
+    <nav class="nav-links">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="Product.html">PRODUCT</a></li>
+
+        <li class="dropdown">
+          <a href="#">CATEGORY ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="T-shirt.html">T-shirt</a></li>
+            <li><a href="Hoddie.html">Hoodie</a></li>
+            <li><a href="Pants.html">Pants</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="nav-icons">
+      <img src="aset/logo icon/cart icon.png" id="cart-icon">
+      <img src="aset/logo icon/search.png">
+    </div>
+  </header>
+
+  <!-- PAYMENT LAYOUT -->
+  <div class="payment-wrapper">
+
+    <!-- LEFT: FORM -->
+    <div class="payment-left">
+
+      <h2 class="section-title">Payment Address</h2>
+
+      <form id="paymentForm">
+        <!-- Email -->
+        <input type="email" class="form-input" id="email" placeholder="Email" required>
+
+        <!-- Address -->
+        <input type="text" class="form-input" id="address" placeholder="Address" required>
+
+        <!-- First & Last Name -->
+        <div class="form-row">
+          <input type="text" class="form-input" id="firstName" placeholder="First name" required>
+          <input type="text" class="form-input" id="lastName" placeholder="Last name" required>
+        </div>
+
+        <!-- City -->
+        <input type="text" class="form-input" id="city" placeholder="City" required>
+
+        <!-- Phone -->
+        <input type="tel" class="form-input" id="phone" placeholder="Phone" required>
+      </form>
+
+      <!-- PAYMENT METHOD -->
+      <p class="payment-method-title">Payment Method</p>
+
+      <div class="payment-options" id="paymentOptions">
+
+        <label class="payment-option selected" data-value="qris">
+          <div class="payment-option-left">
+            <input type="radio" name="paymentMethod" value="qris" checked>
+            <span class="payment-option-label">QRIS</span>
+          </div>
+          <div class="radio-indicator"></div>
+        </label>
+
+        <label class="payment-option" data-value="bca">
+          <div class="payment-option-left">
+            <input type="radio" name="paymentMethod" value="bca">
+            <span class="payment-option-label">BCA</span>
+          </div>
+          <div class="radio-indicator"></div>
+        </label>
+
+        <label class="payment-option" data-value="bri">
+          <div class="payment-option-left">
+            <input type="radio" name="paymentMethod" value="bri">
+            <span class="payment-option-label">BRI</span>
+          </div>
+          <div class="radio-indicator"></div>
+        </label>
+
+        <label class="payment-option" data-value="mandiri">
+          <div class="payment-option-left">
+            <input type="radio" name="paymentMethod" value="mandiri">
+            <span class="payment-option-label">Mandiri</span>
+          </div>
+          <div class="radio-indicator"></div>
+        </label>
+
+      </div>
+
+    </div>
+
+    <!-- RIGHT: ORDER SUMMARY -->
+    <div class="payment-right">
+
+      <!-- ORDER ITEM -->
+      <div id="orderItemsContainer">
+        <!-- Diisi oleh JavaScript dari localStorage -->
+      </div>
+
+      <!-- PAYMENT DETAIL -->
+      <p class="payment-detail-title">Payment Detail</p>
+
+      <div class="payment-breakdown">
+        <div class="breakdown-row">
+          <span>Shipping Subtotal</span>
+          <span id="shippingCost">IDR 15.000,00</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Merchandise Subtotal</span>
+          <span id="merchandiseSubtotal">IDR 0</span>
+        </div>
+        <div class="breakdown-row">
+          <span>Shipping Discount</span>
+          <span id="shippingDiscount">IDR 5.000,00</span>
+        </div>
+      </div>
+
+      <!-- PAY NOW -->
+      <div class="pay-now-wrapper">
+        <button class="pay-now-btn" onclick="processPayment()">Pay now</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+
+    // ============================================================
+    // FORMAT RUPIAH
+    // ============================================================
+    function formatRupiah(num) {
+      return "IDR " + num.toLocaleString("id-ID") + ",00";
+    }
+
+    // ============================================================
+    // LOAD ORDER FROM LOCALSTORAGE
+    // ============================================================
+    function loadOrder() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const container = document.getElementById("orderItemsContainer");
+
+      if (cart.length === 0) {
+        container.innerHTML = '<p style="color:#999;font-size:14px;">Tidak ada produk.</p>';
+        return;
+      }
+
+      // Tampilkan item pertama (Buy it now = 1 item)
+      let totalMerchandise = 0;
+      let html = "";
+
+      cart.forEach(item => {
+        totalMerchandise += item.price * item.qty;
+        html += `
+        <div class="order-item">
+          <div class="order-item-img">
+            <img src="${item.image}" alt="${item.name}">
+          </div>
+          <div class="order-item-info">
+            <p class="order-item-name">${item.name}</p>
+            <p class="order-item-size">${item.size}</p>
+          </div>
+          <p class="order-item-price">${formatRupiah(item.price * item.qty)}</p>
+        </div>
+        `;
+      });
+
+      container.innerHTML = html;
+
+      // Update breakdown
+      const shipping = 15000;
+      const discount = 5000;
+      document.getElementById("merchandiseSubtotal").innerText = formatRupiah(totalMerchandise + shipping);
+      document.getElementById("shippingCost").innerText = formatRupiah(shipping);
+      document.getElementById("shippingDiscount").innerText = formatRupiah(discount);
+    }
+
+    // ============================================================
+    // PAYMENT METHOD SELECT
+    // ============================================================
+    document.querySelectorAll(".payment-option").forEach(option => {
+      option.addEventListener("click", function () {
+        // Hapus selected dari semua
+        document.querySelectorAll(".payment-option").forEach(o => o.classList.remove("selected"));
+        // Aktifkan yang diklik
+        this.classList.add("selected");
+        // Set radio checked
+        this.querySelector("input[type='radio']").checked = true;
+      });
+    });
+
+    // ============================================================
+    // PROCESS PAYMENT
+    // ============================================================
+    function processPayment() {
+      const email    = document.getElementById("email").value.trim();
+      const address  = document.getElementById("address").value.trim();
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName  = document.getElementById("lastName").value.trim();
+      const city     = document.getElementById("city").value.trim();
+      const phone    = document.getElementById("phone").value.trim();
+
+      if (!email || !address || !firstName || !lastName || !city || !phone) {
+        alert("Harap lengkapi semua field terlebih dahulu!");
+        return;
+      }
+
+      // Kosongkan cart setelah bayar
+      localStorage.removeItem("cart");
+      window.location.href = "success order.html";
+    }
+
+    // ============================================================
+    // DROPDOWN NAVBAR
+    // ============================================================
+    document.addEventListener("DOMContentLoaded", function () {
+      loadOrder();
+
+      const dropdown = document.querySelector(".dropdown");
+      const trigger = dropdown.querySelector("a");
+
+      trigger.addEventListener("click", function(e) {
+        e.preventDefault();
+        dropdown.classList.toggle("active");
+      });
+
+      document.addEventListener("click", function(e) {
+        if (!dropdown.contains(e.target)) {
+          dropdown.classList.remove("active");
+        }
+      });
+
+      // Cart icon → ke cart.html
+      document.getElementById("cart-icon").addEventListener("click", function() {
+        window.location.href = "cart.html";
+      });
+    });
+
+  </script>
+
+<script src="global-search.js"></script>
+</body>
+</html>

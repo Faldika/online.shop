@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TS - DSL | Disilgang Official Store</title>
+  <link rel="stylesheet" href="style detail product.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <div class="logo"><img src="aset/logo icon/logo icon.png" id="brand-logo"></div>
+    <nav class="nav-links">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="Product.html">PRODUCT</a></li>
+        <li class="dropdown">
+          <a href="#">CATEGORY ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="T-shirt.html">T-shirt</a></li>
+            <li><a href="Hoddie.html">Hoodie</a></li>
+            <li><a href="Pants.html">Pants</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+    <div class="nav-icons">
+      <img src="aset/logo icon/cart icon.png" id="cart-icon-toggle">
+      <img src="aset/logo icon/search.png">
+    </div>
+  </header>
+
+  <div class="product-detail">
+    <div class="product-left">
+      <button class="arrow left" onclick="prevImg()">&#10094;</button>
+      <div class="main-image"><img id="mainImg" src="aset/image desain/DSL.png"></div>
+      <button class="arrow right" onclick="nextImg()">&#10095;</button>
+      <div class="thumbnail">
+        <img src="aset/image desain/DSL.png" onclick="changeImg(this)">
+        <img src="aset/image product/DSL.png" onclick="changeImg(this)">
+        <img src="aset/image back/DSL.png" onclick="changeImg(this)">
+      </div>
+    </div>
+    <div class="product-right">
+      <p class="product-title">TS - DSL White</p>
+      <p class="product-price">IDR 150.000,00</p>
+      <h3>Size</h3>
+      <div class="size">
+        <button onclick="selectSize(this)">S</button>
+        <button onclick="selectSize(this)">M</button>
+        <button onclick="selectSize(this)">L</button>
+        <button onclick="selectSize(this)">XL</button>
+      </div>
+      <div class="cart">
+        <div class="qty">
+          <button onclick="minus()">-</button>
+          <span id="qty">1</span>
+          <button onclick="plus()">+</button>
+        </div>
+        <button class="add-cart" onclick="addCart()">Add to cart</button>
+        <input type="hidden" id="productName" value="TS - DSL White">
+        <input type="hidden" id="productPrice" value="150000">
+        <input type="hidden" id="productImage" value="aset/image product/DSL.png">
+        <input type="hidden" id="frontImage" value="aset/image product/DSL.png">
+        <input type="hidden" id="backImage" value="aset/image back/DSL.png">
+      </div>
+      <button class="buy" onclick="buyNow()">Buy it now</button>
+      <a href="#" class="size-chart" onclick="sizeChart()">Size Chart</a>
+      <div class="desc">
+        <p><b>DESCRIPTION PRODUCT</b></p>
+        <p>CUTTING : Oversize</p>
+        <p>MATERIAL : Cotton combed 20S</p>
+        <p>Color : White</p>
+      </div>
+    </div>
+  </div>
+  <script src="detail-script.js"></script>
+<script src="global-search.js"></script>
+</body>
+</html>

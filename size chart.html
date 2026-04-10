@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Size Chart - Disilgang Official Store</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style size chart.css">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+    <div class="logo">
+      <img src="aset/logo icon/logo icon.png" id="brand-logo">
+    </div>
+
+    <nav class="nav-links">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="Product.html">PRODUCT</a></li>
+
+        <li class="dropdown">
+          <a href="#">CATEGORY ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="T-shirt.html">T-shirt</a></li>
+            <li><a href="Hoddie.html">Hoodie</a></li>
+            <li><a href="Pants.html">Pants</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="nav-icons">
+      <img src="aset/logo icon/cart icon.png" id="cart-icon">
+      <img src="aset/logo icon/search.png">
+    </div>
+  </header>
+
+  <!-- MAIN LAYOUT -->
+  <div class="sizechart-wrapper">
+
+    <!-- LEFT: MODEL PHOTOS -->
+    <div class="sizechart-left" id="leftPanel">
+      <div class="model-images" id="modelImages">
+        <img src="aset/image detail product/Front saints.png" alt="Front View" id="imgFront">
+        <img src="aset/image detail product/Back saints.png" alt="Back View" id="imgBack">
+      </div>
+    </div>
+
+    <!-- RIGHT: SIZE CHART -->
+    <div class="sizechart-right">
+
+      <!-- CLOSE BUTTON -->
+      <button class="close-btn" id="closeBtn">&times;</button>
+
+      <!-- TITLE -->
+      <h1 class="sizechart-title" id="chartTitle">Size Chart T-Shirt</h1>
+
+      <!-- DIAGRAM IMAGE -->
+      <div class="tshirt-diagram">
+        <img src="aset/image%20size%20cart/TS%20size.png" alt="Size Chart Diagram" id="chartDiagram">
+      </div>
+
+      <!-- SIZE TABLE -->
+      <div class="size-table-wrapper">
+        <table class="size-table">
+          <thead>
+            <tr>
+              <th class="logo-cell">
+                <img src="aset/logo icon/logo icon.png" alt="Logo">
+              </th>
+              <th colspan="4" class="chart-header">SIZE CHART</th>
+            </tr>
+            <tr>
+              <th class="label-col">SIZE</th>
+              <th class="size-header">S</th>
+              <th class="size-header">M</th>
+              <th class="size-header">L</th>
+              <th class="size-header">XL</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- Diisi oleh JavaScript -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+
+    // Data per tipe produk
+    const chartData = {
+      tshirt: {
+        title:   "Size Chart T-Shirt",
+        diagram: "aset/image%20size%20cart/TS%20size.png",
+        rows: [
+          { label: "WIDTH",  values: ["56", "58", "60", "62"] },
+          { label: "LENGTH", values: ["70", "72", "74", "76"] }
+        ]
+      },
+      jorts: {
+        title:   "Size Chart Jorts",
+        diagram: "aset/image%20size%20cart/jorts%20size.png",
+        rows: [
+          { label: "WAIST",  values: ["28", "30", "32", "-"] },
+          { label: "LENGTH", values: ["48", "50", "52", "-"] }
+        ]
+      },
+      hoodie: {
+        title:   "Size Chart Hoodie",
+        diagram: "aset/image%20size%20cart/HD%20size.png",
+        rows: [
+          { label: "WIDTH",  values: ["-", "66", "68", "70"] },
+          { label: "LENGTH", values: ["-", "67", "69", "71"] }
+        ]
+      }
+    };
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const params    = new URLSearchParams(window.location.search);
+      const front     = params.get("front") || "aset/image detail product/Front saints.png";
+      const back      = params.get("back")  || "aset/image detail product/Back saints.png";
+      const name      = params.get("name")  || "";
+      const chartType = params.get("chartType") || "tshirt";
+
+      const data = chartData[chartType] || chartData.tshirt;
+
+      // ── JUDUL ──────────────────────────────────────────
+      document.getElementById("chartTitle").textContent =
+        name ? "Size Chart " + name : data.title;
+
+      // ── DIAGRAM ────────────────────────────────────────
+      document.getElementById("chartDiagram").src = data.diagram;
+
+      // ── TABEL ──────────────────────────────────────────
+      const tbody = document.getElementById("tableBody");
+      tbody.innerHTML = "";
+      data.rows.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td class="label-col">${row.label}</td>` +
+          row.values.map(v => `<td class="value-cell">${v}</td>`).join("");
+        tbody.appendChild(tr);
+      });
+
+      // ── FOTO MODEL ─────────────────────────────────────
+      const imgFront = document.getElementById("imgFront");
+      const imgBack  = document.getElementById("imgBack");
+
+      imgFront.src = front;
+
+      if (!back || chartType === "jorts") {
+        // Satu foto — sembunyikan gambar kedua, foto pertama full width
+        imgBack.style.display = "none";
+        imgFront.style.width  = "100%";
+      } else {
+        imgBack.src = back;
+      }
+
+      // ── CLOSE ──────────────────────────────────────────
+      document.getElementById("closeBtn").addEventListener("click", function () {
+        window.history.back();
+      });
+
+      // ── DROPDOWN ───────────────────────────────────────
+      const dropdown = document.querySelector(".dropdown");
+      const trigger  = dropdown.querySelector("a");
+
+      trigger.addEventListener("click", function (e) {
+        e.preventDefault();
+        dropdown.classList.toggle("active");
+      });
+
+      document.addEventListener("click", function (e) {
+        if (!dropdown.contains(e.target)) {
+          dropdown.classList.remove("active");
+        }
+      });
+
+      // ── CART ICON ──────────────────────────────────────
+      document.getElementById("cart-icon").addEventListener("click", function () {
+        window.location.href = "cart.html";
+      });
+    });
+
+  </script>
+
+<script src="global-search.js"></script>
+</body>
+</html>
+

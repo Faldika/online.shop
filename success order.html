@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Success - Disilgang Official Store</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style success order.css">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <header>
+    <div class="logo">
+      <img src="aset/logo icon/logo icon.png" id="brand-logo" alt="Logo">
+    </div>
+
+    <nav class="nav-links">
+      <ul>
+        <li><a href="index.html">HOME</a></li>
+        <li><a href="Product.html">PRODUCT</a></li>
+
+        <li class="dropdown">
+          <a href="#">CATEGORY ▾</a>
+          <ul class="dropdown-menu">
+            <li><a href="T-shirt.html">T-shirt</a></li>
+            <li><a href="Hoddie.html">Hoodie</a></li>
+            <li><a href="Pants.html">Pants</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="nav-icons">
+      <img src="aset/logo icon/cart icon.png" alt="Cart" onclick="window.location.href='cart.html'">
+      <img src="aset/logo icon/search.png" alt="Search">
+    </div>
+  </header>
+
+  <!-- SUCCESS LAYOUT -->
+  <div class="success-wrapper">
+    <div class="thank-row">
+      <img src="aset/image thank/thank.png" alt="Thank you" class="thank-img-left">
+      <div class="check-circle">
+        <!-- SVG Checkmark icon matching the design -->
+        <svg width="140" height="140" viewBox="0 0 24 24" fill="none" stroke="black" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="7 12 11 16 17 8"></polyline>
+        </svg>
+      </div>
+      <img src="aset/image thank/for ordering.png" alt="for ordering" class="thank-img-right">
+    </div>
+
+    <div class="success-message">
+      <h2>Order Confirmed</h2>
+      <p class="subtitle">Your order was successful and your order is now being processed</p>
+      <p class="small-text">Estimated delivery 2-3 day</p>
+    </div>
+
+    <div class="store-row">
+      <img src="aset/image thank/in our store.png" alt="in our store" class="store-img">
+    </div>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    // DROPDOWN NAVBAR
+    document.addEventListener("DOMContentLoaded", function () {
+      const dropdown = document.querySelector(".dropdown");
+      const trigger = dropdown.querySelector("a");
+
+      trigger.addEventListener("click", function(e) {
+        e.preventDefault();
+        dropdown.classList.toggle("active");
+      });
+
+      document.addEventListener("click", function(e) {
+        if (!dropdown.contains(e.target)) {
+          dropdown.classList.remove("active");
+        }
+      });
+    });
+  </script>
+
+<script src="global-search.js"></script>
+</body>
+</html>

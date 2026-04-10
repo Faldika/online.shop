@@ -37,7 +37,7 @@
     </nav>
 
     <div class="nav-icons">
-      <img src="aset/logo icon/cart icon.png">
+      <img src="aset/logo icon/cart icon.png" id="cart-icon-toggle">
       <img src="aset/logo icon/search.png">
     </div>
   </header>
@@ -114,21 +114,25 @@
       const dropdown = document.querySelector(".dropdown");
       const trigger = dropdown.querySelector("a");
 
-      // klik category
       trigger.addEventListener("click", function(e) {
         e.preventDefault();
         dropdown.classList.toggle("active");
       });
 
-      // klik luar → tutup
       document.addEventListener("click", function(e) {
         if (!dropdown.contains(e.target)) {
           dropdown.classList.remove("active");
         }
       });
 
+      // Cart icon → ke cart.html
+      document.getElementById("cart-icon-toggle").addEventListener("click", function() {
+        window.location.href = "cart.html";
+      });
+
     });
   </script>
 
+<script src="global-search.js"></script>
 </body>
 </html>
